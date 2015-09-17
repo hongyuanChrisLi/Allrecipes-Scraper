@@ -14,14 +14,12 @@ class RecipeLinks:
     def getRecipeLinks(self, page_num):
         print 'Getting page #' + str(page_num)
         data = urllib2.urlopen(self.ENDPOINT + str(page_num) + "#" + str(page_num)).read()
-        print 'Processing'
         lxml_data = lxml.html.fromstring(data)
         recipes = lxml_data.xpath(self.RECIPE_TAG)
         recipe_links = []
         for recipe in recipes:
             link = recipe.xpath('.//a')[0]
-            recipe_links.append(link.get("href"))
-        print 'Links obtained'
+            recipe_links.append(link.get("href").strip())
         return recipe_links
 
     def nextRecipeLinks(self):

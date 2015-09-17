@@ -36,6 +36,8 @@ class Scraper:
         recipe_iter = RecipeLinks(page_num, step_size)
         while not recipe_iter.isLastPage():
             recipe_links = recipe_iter.nextRecipeLinks()
+            for link in recipe_links:
+                print link
             # recipes, reviews = self.parseRecipeLinks(recipe_links)
             # self.writeIteration(recipes, reviews, recipe_iter.getPage() - step_size)
 
