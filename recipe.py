@@ -4,7 +4,7 @@ class Recipe:
 
     NUTRIENT_TAG = './/ul[@class="nutrientLine"]'
     TIME_TAG = './/ul[@class="prepTime"]'
-    GENERAL_TAG = './/section[@class="recipe-summary clearfix"]'
+    GENERAL_TAG = './/section[contains(@class, "recipe-summary")]'
     RATING_TAG = './/div[@class="rating-stars"]'
     NUM_RATINGS_TAG = './/span[@class="review-count"]'
     DESCRIPTION_TAG = './/div[@class="submitter__description"]'
@@ -49,16 +49,18 @@ class Recipe:
         self.properties['ingredients'] = ingredients_array
 
     def parseAttributes(self, lxml_data):
-        time_block = lxml_data.xpath(self.TIME_TAG)[0]
-        time_types = time_block.xpath('.//p')
-        times = time_block.xpath('.//time')
-        for i in xrange(len(time_types)):
-            self.properties[time_types[i].text_content().strip()] = times[i].text_content().strip()
+        time_block = lxml_data.xpath(self.TIME_TAG)
+        if len(time_block) > 0:
+            time_block = time_block[0]
+            time_types = time_block.xpath('.//p')
+            times = time_block.xpath('.//time')
+            for i in xrange(len(time_types)):
+                self.properties[time_types[i].text_content().strip()] = times[i].text_content().strip()
 
         general_block = lxml_data.xpath(self.GENERAL_TAG)[0]
         self.properties['name'] = general_block.xpath('.//h1')[0].text_content().strip()
-        self.properties['rating'] = general_block.xpath(self.RATING_TAG)[0].get("data-ratingstars").strip()
-        self.properties['num_ratings'] = general_block.xpath(self.NUM_RATINGS_TAG)[0].text_content().strip()
+        self.properties['rating'] = float(general_block.xpath(self.RATING_TAG)[0].get("data-ratingstars").strip())
+        self.properties['num_ratings'] = int(general_block.xpath(self.NUM_RATINGS_TAG)[0].text_content().strip())
         self.properties['description'] = general_block.xpath(self.DESCRIPTION_TAG)[0].text_content().strip()
 
         category_block = lxml_data.xpath(self.CATEGORY_TAG)[0]
