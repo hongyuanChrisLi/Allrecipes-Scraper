@@ -42,5 +42,5 @@ class Scraper:
             recipes, reviews = self.parseRecipeLinks(recipe_links)
             self.writeIteration(recipes, reviews, recipe_iter.getPage())
 
-test = Scraper('D:/recipes8.data', 'D:/reviews8.data', 'D:/log8.log')
-test.scrape(332, 8)
+test = Scraper('D:/recipes1.data', 'D:/reviews1.data', 'D:/log1.log')
+test.scrape(1, 1)
