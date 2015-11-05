@@ -1,11 +1,24 @@
 from recipelinks import RecipeLinks
 from recipepage import RecipePage
+import threading
 
 class Scraper:
-    def __init__(self, recipe_path, review_path, log_path):
+
+    def __init__(self, recipe_path='D:/recipes.txt', review_path='D:/reviews.txt', log_path='D:/log.txt', num_threads=1):
         self.recipe_path = recipe_path
         self.review_path = review_path
         self.log_path = log_path
+        self.num_threads = num_threads
+        self.file_writer = Scraper.FileThread()
+
+    def execute(self):
+        thread_tracker = {}
+        for i in xrange(self.num_threads):
+            thread_tracker[i] = Scraper.WorkerThread()
+
+        recipe_iter = RecipeLinks()
+        while not recipe_iter.isLastPage():
+            recipe_links = recipe_iter.nextRecipeLinks()
 
     def writeIteration(self, recipes, review_blocks, page_num):
         recipe_file = open(self.recipe_path, 'a')
@@ -42,5 +55,4 @@ class Scraper:
             recipes, reviews = self.parseRecipeLinks(recipe_links)
             self.writeIteration(recipes, reviews, recipe_iter.getPage())
 
-test = Scraper('D:/recipes1.data', 'D:/reviews1.data', 'D:/log1.log')
-test.scrape(1, 1)
+test = Scraper(num_threads=8)
