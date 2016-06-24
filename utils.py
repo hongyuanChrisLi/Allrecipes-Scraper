@@ -47,6 +47,6 @@ def merge(inputs, output):
         inp.close()
     out.close()
 
-validate(['D:/log1.log', 'D:/log2.log', 'D:/log3.log', 'D:/log4.log', 'D:/log5.log', 'D:/log6.log', 'D:/log7.log', 'D:/log8.log'])
-count(['D:/recipes1.data', 'D:/recipes2.data', 'D:/recipes3.data', 'D:/recipes4.data'])
-count(['D:/reviews1.data', 'D:/reviews2.data', 'D:/reviews3.data', 'D:/reviews4.data'])
+validate(['log1.log', 'log2.log', 'log3.log', 'log4.log', 'log5.log', 'log6.log', 'log7.log', 'log8.log'])
+count(['recipes1.data', 'recipes2.data', 'recipes3.data', 'recipes4.data'])
+count(['reviews1.data', 'reviews2.data', 'reviews3.data', 'reviews4.data'])

@@ -1,5 +1,5 @@
-import lxml.html
 import urllib2
+import lxml.html
 
 class RecipeLinks:
 

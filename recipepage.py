@@ -24,7 +24,7 @@ class RecipePage:
     def getReviews(self):
         reviews_array = []
         i = 1
-        data = urllib2.urlopen(self.REVIEWS_ENDPOINT + self.id + '&pagenumber=' + str(i) + '&pagesize=50&recipeType=Recipe').read()
+        data = urllib2.urlopen(self.REVIEWS_ENDPOINT + self.id + '&pagenumber=' + str(i) + '&pagesize=50&recipeType=Recipe&sortBy=MostHelpful').read()
         lxml_data = lxml.html.fromstring(data)
         reviews = lxml_data.xpath(self.REVIEWS_TAG)
         while len(reviews) != 0:
@@ -33,7 +33,11 @@ class RecipePage:
                 r.parseReview(review, self.id)
                 reviews_array.append(r)
             i += 1
-            data = urllib2.urlopen(self.REVIEWS_ENDPOINT + self.id + '&pagenumber=' + str(i) + '&pagesize=50&recipeType=Recipe').read()
-            lxml_data = lxml.html.fromstring(data)
-            reviews = lxml_data.xpath(self.REVIEWS_TAG)
+            try:
+                data = urllib2.urlopen(self.REVIEWS_ENDPOINT + self.id + '&pagenumber=' + str(i) + '&pagesize=50&recipeType=Recipe&sortBy=MostHelpful').read()
+                lxml_data = lxml.html.fromstring(data)
+                reviews = lxml_data.xpath(self.REVIEWS_TAG)
+            except:
+                # Assume if we cannot get the next page of the reviews, then there are no more reviews
+                reviews = {}
         return reviews_array
