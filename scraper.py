@@ -41,6 +41,7 @@ class Scraper:
             recipe_links = recipe_iter.nextRecipeLinks()
             recipes, reviews = self.parseRecipeLinks(recipe_links)
             self.writeIteration(recipes, reviews, recipe_iter.getPage())
+        print("Done Scraping.")
 
-test = Scraper('D:/recipes1.data', 'D:/reviews1.data', 'D:/log1.log')
+test = Scraper('recipes1.data', 'reviews1.data', 'log1.log')
 test.scrape(1, 1)
